@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LocalBiz Pulse | Smarter Business in India</title>
+    <!-- Modern Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+    <!-- Login Screen -->
+    <div id="login-view" class="view active">
+        <div class="login-card glass">
+            <h1><i data-lucide="store"></i> LocalBiz Pulse</h1>
+            <p>Welcome back! Let's manage your business.</p>
+            <form id="login-form">
+                <div class="form-group">
+                    <label>Email ID</label>
+                    <input type="email" id="login-email" value="ramesh@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="login-password" value="password123" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Login / உள்நுழைய</button>
+            </form>
+            <p id="login-error" class="error-msg"></p>
+        </div>
+    </div>
+
+    <!-- Main Application app-view -->
+    <div id="app-view" class="view">
+        <nav class="sidebar glass">
+            <div class="brand">
+                <i data-lucide="store"></i>
+                <h2>LocalBiz</h2>
+            </div>
+            <ul class="nav-links">
+                <li class="active" data-target="dashboard"><i data-lucide="layout-dashboard"></i> Dashboard</li>
+                <li data-target="sales"><i data-lucide="indian-rupee"></i> Sales (விற்பனை)</li>
+                <li data-target="expenses"><i data-lucide="trending-down"></i> Expenses (செலவுகள்)</li>
+                <li data-target="customers"><i data-lucide="users"></i> Customers (வாடிக்கையாளர்கள்)</li>
+            </ul>
+            <button id="logout-btn" class="btn btn-danger"><i data-lucide="log-out"></i> Logout</button>
+        </nav>
+
+        <main class="main-content">
+            <header class="top-nav">
+                <h2 id="page-title">Dashboard</h2>
+                <div class="user-greeting">Welcome, <span id="user-name-display">User</span>!</div>
+            </header>
+
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="content-section active">
+                <div class="stats-grid">
+                    <div class="stat-card glass gradient-green">
+                        <h3>Total Sales</h3>
+                        <p class="amount">₹<span id="dash-sales">0</span></p>
+                    </div>
+                    <div class="stat-card glass gradient-red">
+                        <h3>Total Expenses</h3>
+                        <p class="amount">₹<span id="dash-expenses">0</span></p>
+                    </div>
+                    <div class="stat-card glass gradient-blue">
+                        <h3>Net Profit (லாபம்)</h3>
+                        <p class="amount">₹<span id="dash-profit">0</span></p>
+                    </div>
+                    <div class="stat-card glass health-card gradient-purple">
+                        <h3>Health Score</h3>
+                        <div class="score-ring">
+                            <span id="dash-score">0</span>
+                        </div>
+                        <p class="score-desc">0-100 (Higher is Better)</p>
+                    </div>
+                </div>
+                <div class="quick-tips mt-4 glass">
+                    <h4><i data-lucide="sparkles"></i> Tip of the Day</h4>
+                    <p>Keep track of your daily electricity and rent expenses to get an accurate Health Score.</p>
+                </div>
+            </section>
+
+            <!-- Sales Section -->
+            <section id="sales" class="content-section">
+                <div class="layout-grid">
+                    <div class="form-container glass">
+                        <h3>Add New Sale</h3>
+                        <form id="sales-form">
+                            <div class="form-group">
+                                <label>Amount (₹)</label>
+                                <input type="number" id="sale-amount" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Date</label>
+                                <input type="date" id="sale-date" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add Sale</button>
+                        </form>
+                    </div>
+                    <div class="table-container glass">
+                        <h3>Recent Sales</h3>
+                        <table id="sales-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Amount (₹)</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Expenses Section -->
+            <section id="expenses" class="content-section">
+                <div class="layout-grid">
+                    <div class="form-container glass">
+                        <h3>Add New Expense</h3>
+                        <form id="expenses-form">
+                            <div class="form-group">
+                                <label>Amount (₹)</label>
+                                <input type="number" id="expense-amount" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Category</label>
+                                <select id="expense-category" required>
+                                    <option value="" disabled selected>Select Category</option>
+                                    <option value="Groceries/Stock">Groceries/Stock</option>
+                                    <option value="Milk/Tea">Milk/Tea (பால் / டீ)</option>
+                                    <option value="Electricity">Electricity Bill</option>
+                                    <option value="Rent">Shop Rent</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Date</label>
+                                <input type="date" id="expense-date" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add Expense</button>
+                        </form>
+                    </div>
+                    <div class="table-container glass">
+                        <h3>Recent Expenses</h3>
+                        <table id="expenses-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Category</th>
+                                    <th>Amount (₹)</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Customers Section -->
+            <section id="customers" class="content-section">
+                <div class="layout-grid">
+                    <div class="form-container glass">
+                        <h3>Add Customer (Udhar/Credits)</h3>
+                        <form id="customers-form">
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" id="customer-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Phone</label>
+                                <input type="text" id="customer-phone" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Total Purchase (₹)</label>
+                                <input type="number" id="customer-purchase" placeholder="Initial value (optional)">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add Customer</button>
+                        </form>
+                    </div>
+                    <div class="table-container glass">
+                        <h3>Your Customers</h3>
+                        <table id="customers-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Phone</th>
+                                    <th>Total Purchase (₹)</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast"></div>
+
+    <script src="script.js"></script>
+    <script>
+        // Initialize lucide icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>
