@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register - LocalBiz Pulse</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="auth-wrapper">
+    <div class="auth-container glass-panel">
+      <div class="auth-header">
+        <div class="auth-logo">LocalBiz Pulse</div>
+        <p>Create your account</p>
+      </div>
+
+      <form id="registerForm">
+        <div class="form-group">
+          <label for="name">Business / Owner Name</label>
+          <input type="text" id="name" class="form-control" autocomplete="name" required placeholder="John Doe">
+        </div>
+        <div class="form-group">
+          <label for="email">Email address</label>
+          <input type="email" id="email" class="form-control" autocomplete="email" required placeholder="john@example.com">
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" class="form-control" autocomplete="new-password" required placeholder="Minimum 6 characters">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+      </form>
+
+      <div class="auth-link">
+        Already have an account? <a href="login.html">Sign In</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script>
+    requireNoAuth();
+
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      
+      if(password.length < 6) {
+        return showToast('Password must be at least 6 characters', 'error');
+      }
+
+      const btn = e.target.querySelector('button');
+      btn.textContent = 'Creating...';
+      btn.disabled = true;
+
+      try {
+        const data = await apiCall('/auth/register', 'POST', { name, email, password });
+        setToken(data.token);
+        showToast('Registration successful', 'success');
+        setTimeout(() => {
+          window.location.href = 'dashboard.html';
+        }, 1000);
+      } catch (err) {
+        showToast(err.message, 'error');
+        btn.textContent = 'Create Account';
+        btn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

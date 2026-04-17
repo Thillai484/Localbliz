@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Expenses</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="dashboard-layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar glass-panel">
+  <div class="sidebar-logo">LocalBiz Pulse</div>
+
+  <ul class="nav-menu">
+
+    <li class="nav-item">
+      <a href="dashboard.html" class="nav-link">
+        <span class="nav-icon">🏠</span>
+        Dashboard
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a href="sales.html" class="nav-link">
+        <span class="nav-icon">📊</span>
+        Sales
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a href="expenses.html" class="nav-link">
+        <span class="nav-icon">💸</span>
+        Expenses
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a href="customers.html" class="nav-link">
+        <span class="nav-icon">👥</span>
+        Customers
+      </a>
+    </li>
+
+  </ul>
+   <div class="logout-container">
+    <button onclick="logout()" class="logout-btn">
+      <span class="nav-icon">🚪</span>
+      Logout
+    </button>
+  </div>
+</aside>
+
+  <!-- Main -->
+  <main class="main-content">
+
+    <div class="section-card glass-panel">
+
+      <div class="section-header">
+        <h3 class="section-title">💸 Expenses</h3>
+        <button class="btn btn-primary btn-sm" onclick="openModal()">+ Add Expense</button>
+      </div>
+
+      <ul id="expensesList" class="data-list"></ul>
+
+    </div>
+
+  </main>
+
+</div>
+
+<!-- Modal -->
+<div id="modal" class="modal-overlay">
+  <div class="modal-content glass-panel">
+
+    <div class="modal-header">
+      <h3>Add Expense</h3>
+      <button class="close-modal" onclick="closeModal()">×</button>
+    </div>
+
+    <div class="form-group">
+      <input type="number" id="amount" class="form-control" placeholder="Amount">
+    </div>
+
+    <div class="form-group">
+      <input type="text" id="category" class="form-control" placeholder="Category">
+    </div>
+
+    <div class="form-group">
+      <input type="date" id="date" class="form-control">
+    </div>
+
+    <button class="btn btn-primary btn-block" onclick="addExpense()">Save</button>
+
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+
+<script>
+function openModal(){ modal.classList.add("active"); }
+function closeModal(){ modal.classList.remove("active"); }
+
+async function loadExpenses(){
+  const data = await apiCall('/expenses');
+  const list = document.getElementById('expensesList');
+  list.innerHTML = '';
+
+  data.forEach(e=>{
+    list.innerHTML += `
+      <li class="data-item">
+        <div class="data-info">
+          <h4>${e.category}</h4>
+          <p>${e.date}</p>
+        </div>
+        <div class="data-amount amount-negative">
+          -₹${e.amount}
+        </div>
+      </li>`;
+  });
+}
+
+async function addExpense(){
+  await apiCall('/expenses','POST',{
+    amount: amount.value,
+    category: category.value,
+    date: date.value
+  });
+  closeModal();
+  loadExpenses();
+}
+
+async function deleteExpense(id){
+  await apiCall(`/expenses/${id}`,'DELETE');
+  loadExpenses();
+}
+
+window.onload = loadExpenses;
+</script>
+
+</body>
+</html>
